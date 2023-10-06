@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:research/abstract_factory/abstract_factory.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,11 +27,28 @@ class MyHomePage extends StatelessWidget {
 
   final String title;
 
+  onButtonClicked(BuildContext context) {
+    print('Android button clicked');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: const Text('Testing'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AbstractFactoryImpl()
+                .buildButton(context, ()=>onButtonClicked(context), 'Android'),
+            const SizedBox(height: 20,),
+            AbstractFactoryImpl().buildIndicator(context),
+          ],
+        ),
       ),
     );
   }
