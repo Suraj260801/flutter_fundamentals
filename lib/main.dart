@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:research/examples/factory_method.dart';
+import 'package:research/examples/factory_method2.dart';
+import 'package:research/flutter_factory/button_factory_method.dart';
 
 void main() {
+  late Employee emp = Employee('programmer');
+  emp.work();
+  Creator productCreatorA = ProductCreatorA();
+  Product productA = productCreatorA.createProduct();
+  productA.display();
   runApp(const MyApp());
 }
 
@@ -29,8 +37,34 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: const Text('Testing'),
+      ),
+      body: Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PlatformButton(TargetPlatform.android).build(() {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text(
+                    'Android button clicked',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                  backgroundColor: Colors.green,
+                ));
+              }, const Text("Android")),
+              PlatformButton(TargetPlatform.iOS).build(() {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Android button clicked'),
+                  backgroundColor: Colors.red,
+                ));
+              }, const Text("Ios"))
+            ],
+          ),
+        ),
       ),
     );
   }
