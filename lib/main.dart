@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:research/network/dio_api_call.dart';
+
+import 'model/post.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,11 +29,22 @@ class MyHomePage extends StatelessWidget {
 
   final String title;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Testing'),
+      ),
+      body: FutureBuilder<List<Post>>(
+        future: getPosts(),
+        builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+          return ListView.builder(itemBuilder: (context,index){
+            final Post? post=snapshot.data?[index];
+            return ListTile(title: Text('${post?.id}'),subtitle: Text('${post?.title?.substring(0,12)}'),);
+          },itemCount: snapshot.data?.length,);
+        },
+
       ),
     );
   }
