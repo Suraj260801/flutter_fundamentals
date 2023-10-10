@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:research/network/dio_api_call.dart';
+import 'package:research/network/http_api_call.dart';
 
 import 'model/post.dart';
 
@@ -39,10 +39,15 @@ class MyHomePage extends StatelessWidget {
       body: FutureBuilder<List<Post>>(
         future: getPosts(),
         builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
-          return ListView.builder(itemBuilder: (context,index){
-            final Post? post=snapshot.data?[index];
-            return ListTile(title: Text('${post?.id}'),subtitle: Text('${post?.title?.substring(0,12)}'),);
-          },itemCount: snapshot.data?.length,);
+          if(snapshot.hasData){
+            return ListView.builder(itemBuilder: (context,index){
+              final Post? post=snapshot.data?[index];
+              return ListTile(title: Text('${post?.id}'),subtitle: Text('${post?.title?.substring(0,12)}'),);
+            },itemCount: snapshot.data?.length,);
+          }else{
+            return const Center(child: CircularProgressIndicator(color: Colors.red,));
+          }
+
         },
 
       ),
