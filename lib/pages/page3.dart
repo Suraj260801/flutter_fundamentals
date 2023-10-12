@@ -7,8 +7,8 @@ class Page3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? args=Get.arguments;
-    Logs.print(args);
+   String? args=Get.arguments;
+   Logs.print(args);
     return Scaffold(
       appBar: AppBar(title: const Text('Page3')),
       body: SizedBox(
