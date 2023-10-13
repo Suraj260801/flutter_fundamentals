@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:research/network/http_api_call.dart';
 
@@ -28,29 +29,38 @@ class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Testing'),
-      ),
-      body: FutureBuilder<List<Post>>(
-        future: getPosts(),
-        builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
-          if(snapshot.hasData){
-            return ListView.builder(itemBuilder: (context,index){
-              final Post? post=snapshot.data?[index];
-              return ListTile(title: Text('${post?.id}'),subtitle: Text('${post?.title?.substring(0,12)}'),);
-            },itemCount: snapshot.data?.length,);
-          }else{
-            return const Center(child: CircularProgressIndicator(color: Colors.red,));
-          }
-
-        },
-
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Testing'),
+        ),
+        body: FutureBuilder<Either<String, List<Post>>>(
+          future: getPosts(),
+          builder: (BuildContext context,
+              AsyncSnapshot<Either<String, List<Post>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              final data = snapshot.data!;
+              return data.fold(
+                (error) => Center(child: Text('Error: $error')),
+                (posts) => ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(posts[index].title!),
+                      subtitle: Text(posts[index].body!),
+                    );
+                  },
+                ),
+              );
+            }else {
+              return const Center(child: Text('Unknown error occurred.'));
+            }
+          },
+        ));
   }
 }

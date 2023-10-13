@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:research/model/post.dart';
-Future<List<Post>>getPosts() async {
-  const String url='https://jsonplaceholder.typicode.com/posts';
+import 'package:dartz/dartz.dart';
+Future<Either<String,List<Post>>>getPosts() async {
+  const String url='https://jsonplaceholder.typicode.com/postss';
   final Logger log=Logger();
 
   try{
@@ -14,16 +16,21 @@ Future<List<Post>>getPosts() async {
       final List<dynamic> json=jsonDecode(response.body);
       final List<Post> posts=json.map((dynamic map)=>Post.fromJson(map)).toList();
       log.d("Success");
-      return posts;
+      return right(posts);
 
     }else{
-      log.d(response.statusCode);
-      log.d(response.body);
+      final String error="${response.statusCode}:${response.body}";
+      throw error;
     }
-  }catch(e){
-    log.d("Didn't Receive data");
+  }on HttpException{
+    return left('Cant Find post');
+  } on SocketException{
+    return left('No Internet Connection');
+  } on FormatException{
+    return left('Bad Response Format');
+  } catch(e){
+    return left(e.toString());
   }
-  return [];
 
 
 }
