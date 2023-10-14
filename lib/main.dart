@@ -32,6 +32,43 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Testing'),
       ),
+      body: Container(
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: Colors.blue,
+        child: FractionallySizedBox(
+          alignment: FractionalOffset.center,
+          widthFactor: 0.8,
+          heightFactor: 0.8,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    Container(
+                      width: 300,
+                      height: 200,
+                      color: Colors.green,
+                    ),
+                    Container(
+                      width: 300,
+                      height: 200,
+                      color: Colors.red,
+                    ),
+                    Container(
+                      width: 300,
+                      height: 200,
+                      color: Colors.yellow,
+                    )
+                  ],
+                ),
+              )
+             
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
