@@ -32,6 +32,28 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Testing'),
       ),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+
+          children: [
+            Container(
+              width: 300,
+              height: 100,
+              color: Colors.lightBlue,
+              child: const FittedBox(
+                  fit: BoxFit.fill, child: Text('asdfghjklcvbnmfghjghjcghj')),
+            ),
+            const Divider(thickness: 1,),
+            Container(
+              width: 300,
+              height: 300,
+              color: Colors.lightBlue,
+              child: FittedBox(
+                  fit: BoxFit.fitHeight, child: Image.asset('assets/images/giyu.png'))),
+          ],
+        ),
+      ),
     );
   }
 }
