@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:research/views/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,22 +17,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Testing'),
-      ),
+      home: Scaffold(body: Container(
+          decoration: const BoxDecoration(
+              gradient:
+              LinearGradient(colors: [Color(0xFFcfd9df), Color(0xFFe2ebf0)])),
+          child: const LoginPage()
+      )),
     );
   }
 }
